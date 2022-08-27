@@ -9,11 +9,17 @@ module Phlex
     extend Tag
 
     def content(&block)
-      original_bytesize = @_target.size
+      original_size = @_target.size
       output = yield if block_given?
-      unchanged = (original_bytesize == @_target.size)
+      unchanged = (original_size == @_target.size)
 
-      text(output) if unchanged && output.is_a?(String)
+      if unchanged
+        if output.is_a?(String)
+          text(output)
+        elsif output.respond_to?(:to_s)
+          text(output.to_s)
+        end
+      end
     end
 
     def text(content)

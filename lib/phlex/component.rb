@@ -36,10 +36,5 @@ module Phlex
       self.class.rendered_at_least_once ||= true
       buffer
     end
-
-    def phlex_block(&block)
-      return block if block.binding.receiver.is_a?(Phlex::Block)
-      Phlex::Block.new(@_parent, &block)
-    end
   end
 end
